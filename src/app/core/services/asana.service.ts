@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface AsanaTaskPayload {
@@ -19,6 +19,11 @@ export class AsanaService {
   constructor(private http: HttpClient) {}
 
   createBugTask(payload: AsanaTaskPayload): Observable<any> {
+    const token = environment.asana.personalAccessToken;
+    if (!token) {
+      return throwError(() => ({ message: 'Asana token is not configured. Set ASANA_PERSONAL_ACCESS_TOKEN at build time.' }));
+    }
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${environment.asana.personalAccessToken}`,
       'Content-Type': 'application/json'

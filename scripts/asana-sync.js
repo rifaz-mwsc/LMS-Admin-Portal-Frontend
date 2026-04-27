@@ -21,17 +21,31 @@ const path = require('path');
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
+function loadEnv() {
+  const envPath = path.join(__dirname, '../.env');
+  if (!fs.existsSync(envPath)) return {};
+  return fs.readFileSync(envPath, 'utf8')
+    .split('\n')
+    .reduce((acc, line) => {
+      const [key, ...val] = line.split('=');
+      if (key && val.length) acc[key.trim()] = val.join('=').trim();
+      return acc;
+    }, {});
+}
+
 function getAsanaConfig() {
+  const env = loadEnv();
+  const token = env['ASANA_PERSONAL_ACCESS_TOKEN'] || process.env.ASANA_PERSONAL_ACCESS_TOKEN;
+
+  // projectGid still lives in environment.ts (not a secret)
   const envPath = path.join(__dirname, '../src/environments/environment.ts');
   const src = fs.readFileSync(envPath, 'utf8');
-  const tokenMatch = src.match(/personalAccessToken:\s*['"]([^'"]*)['"]/);
   const projectMatch = src.match(/projectGid:\s*['"]([^'"]+)['"]/);
-
-  const token = tokenMatch?.[1];
   const projectGid = projectMatch?.[1];
 
   if (!token) {
-    console.error('❌  asana.personalAccessToken is empty in environment.ts');
+    console.error('❌  ASANA_PERSONAL_ACCESS_TOKEN is not set.');
+    console.error('   Add it to .env  (see .env.example)');
     process.exit(1);
   }
   if (!projectGid) {
