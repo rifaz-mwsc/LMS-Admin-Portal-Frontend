@@ -3,7 +3,7 @@ const userList = [
         id: 1,
         name: "David McHenry",
         position: "UI/UX Designer",
-        email: "david@skote.com",
+        email: "david@LMS Admin Portal.com",
         tags: ['Photoshop', 'illustrator'],
         project: "152",
         isSelected: false
@@ -13,7 +13,7 @@ const userList = [
         profile: "assets/images/users/avatar-2.jpg",
         name: "Frank Kirk",
         position: "Frontend Developer",
-        email: "frank@skote.com",
+        email: "frank@LMS Admin Portal.com",
         tags: ['Html', 'Css', '2 + more'],
         project: "132",
         isSelected: false
@@ -23,7 +23,7 @@ const userList = [
         profile: "assets/images/users/avatar-3.jpg",
         name: "Rafael Morales",
         position: "Backend Developer",
-        email: "Rafael@skote.com",
+        email: "Rafael@LMS Admin Portal.com",
         tags: ['Php', 'Java', 'Python'],
         project: "112",
         isSelected: false
@@ -32,7 +32,7 @@ const userList = [
         id: 4,
         name: "Mark Ellison",
         position: "Full Stack Developer",
-        email: "mark@skote.com",
+        email: "mark@LMS Admin Portal.com",
         tags: ['Ruby', 'Php', '2 + more'],
         project: "121",
         isSelected: false
@@ -42,7 +42,7 @@ const userList = [
         profile: "assets/images/users/avatar-4.jpg",
         name: "Minnie Walter",
         position: "Frontend Developer",
-        email: "minnie@skote.com",
+        email: "minnie@LMS Admin Portal.com",
         tags: ['Html', 'Css', '2 + more'],
         project: "145",
         isSelected: false
@@ -52,7 +52,7 @@ const userList = [
         profile: "assets/images/users/avatar-5.jpg",
         name: "Shirley Smith",
         position: "UI/UX Designer",
-        email: "shirley@skote.com",
+        email: "shirley@LMS Admin Portal.com",
         tags: ['Photoshop', 'illustrator'],
         project: "136",
         isSelected: false
@@ -61,7 +61,7 @@ const userList = [
         id: 7,
         name: "John Santiago",
         position: "Full Stack Developer",
-        email: "john@skote.com",
+        email: "john@LMS Admin Portal.com",
         tags: ['Ruby', 'Php', '2 + more'],
         project: "125",
         isSelected: false
@@ -71,7 +71,7 @@ const userList = [
         profile: "assets/images/users/avatar-5.jpg",
         name: "Colin Melton",
         position: "Backend Developer",
-        email: "colin@skote.com",
+        email: "colin@LMS Admin Portal.com",
         tags: ['Php', 'Java', 'Python'],
         project: "136",
         isSelected: false
@@ -80,7 +80,7 @@ const userList = [
         id: 9,
         name: "Mark Ellison",
         position: "Full Stack Developer",
-        email: "mark@skote.com",
+        email: "mark@LMS Admin Portal.com",
         tags: ['Ruby', 'Php', '2 + more'],
         project: "121",
         isSelected: false
@@ -90,7 +90,7 @@ const userList = [
         profile: "assets/images/users/avatar-4.jpg",
         name: "Minnie Walter",
         position: "Frontend Developer",
-        email: "minnie@skote.com",
+        email: "minnie@LMS Admin Portal.com",
         tags: ['Html', 'Css', '2 + more'],
         project: "145",
         isSelected: false
@@ -100,7 +100,7 @@ const userList = [
         profile: "assets/images/users/avatar-5.jpg",
         name: "Shirley Smith",
         position: "UI/UX Designer",
-        email: "shirley@skote.com",
+        email: "shirley@LMS Admin Portal.com",
         tags: ['Photoshop', 'illustrator'],
         project: "136",
         isSelected: false
@@ -109,7 +109,7 @@ const userList = [
         id: 12,
         name: "John Santiago",
         position: "Full Stack Developer",
-        email: "john@skote.com",
+        email: "john@LMS Admin Portal.com",
         tags: ['Ruby', 'Php', '2 + more'],
         project: "125",
         isSelected: false
@@ -119,7 +119,7 @@ const userList = [
         profile: "assets/images/users/avatar-5.jpg",
         name: "Colin Melton",
         position: "Backend Developer",
-        email: "colin@skote.com",
+        email: "colin@LMS Admin Portal.com",
         tags: ['Php', 'Java', 'Python'],
         project: "136",
         isSelected: false

@@ -53,7 +53,7 @@ const tasks = [
     {
         index: 1,
         taskType: 'upcoming',
-        name: 'Create a Skote Dashboard UI',
+        name: 'Create a LMS Admin Portal Dashboard UI',
         images: ['assets/images/users/avatar-2.jpg', 'assets/images/users/avatar-1.jpg'],
         status: 'Waiting',
         checked: false
@@ -69,7 +69,7 @@ const tasks = [
     {
         index: 3,
         taskType: 'upcoming',
-        name: 'Create a Skote Logo',
+        name: 'Create a LMS Admin Portal Logo',
         images: ['assets/images/users/avatar-1.jpg'],
         status: 'Waiting',
         checked: false

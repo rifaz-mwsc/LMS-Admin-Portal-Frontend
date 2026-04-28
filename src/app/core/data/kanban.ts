@@ -19,7 +19,7 @@ const tasks = [
     },
     {
         id: 3,
-        title: 'Create a Skote Logo',
+        title: 'Create a LMS Admin Portal Logo',
         date: '15 Oct, 2019',
         task: 'Waiting',
         user: ['assets/images/users/avatar-5.jpg'],
@@ -47,7 +47,7 @@ const tasks = [
     },
     {
         id: 6,
-        title: 'Skote Dashboard UI',
+        title: 'LMS Admin Portal Dashboard UI',
         date: '13 Oct, 2019',
         task: 'Complete',
         user: ['assets/images/users/avatar-2.jpg'],
@@ -76,7 +76,7 @@ const tasks = [
     },
     {
         id: 9,
-        title: 'Skote landing Psd',
+        title: 'LMS Admin Portal landing Psd',
         date: '15 Oct, 2019',
         task: 'Waiting',
         user: ['assets/images/users/avatar-5.jpg'],

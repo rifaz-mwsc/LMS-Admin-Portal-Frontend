@@ -69,7 +69,7 @@ export class CalendarComponent implements OnInit {
   currentEvents: EventApi[] = [];
 
   ngOnInit(): void {
-    this.breadCrumbItems = [{ label: 'Skote' }, { label: 'Calendar', active: true }];
+    this.breadCrumbItems = [{ label: 'LMS Admin Portal' }, { label: 'Calendar', active: true }];
 
     this.formData = this.formBuilder.group({
       title: ['', [Validators.required]],

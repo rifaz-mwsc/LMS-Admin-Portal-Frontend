@@ -42,7 +42,7 @@ const projectData = [
     {
         id: 5,
         image: 'assets/images/companies/img-5.png',
-        text: 'Skote Dashboard UI',
+        text: 'LMS Admin Portal Dashboard UI',
         subtext: 'Separate existence is a myth',
         users: ['assets/images/users/avatar-7.jpg', 'assets/images/users/avatar-8.jpg'],
         status: 'Completed',

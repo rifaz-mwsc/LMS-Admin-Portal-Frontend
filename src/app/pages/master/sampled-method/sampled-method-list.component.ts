@@ -1,6 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalService, BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
+import { HttpClient } from '@angular/common/http';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { environment } from '../../../../environments/environment';
+
+interface SampledMethod {
+  id: string;
+  shortCode: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-sampled-method-list',
@@ -10,43 +18,49 @@ export class SampledMethodListComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   term = '';
   submitted = false;
-  editId: number | null = null;
+  editId: string | null = null;
   sampledMethodForm!: UntypedFormGroup;
+  loading = false;
+  error = '';
 
   @ViewChild('formModal', { static: false }) formModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
-  deleteTargetId: number | null = null;
+  deleteTargetId: string | null = null;
+  dataList: SampledMethod[] = [];
 
-  dataList = [
-    { id: 1, code: 'VEN', name: 'Venipuncture', description: 'Blood draw from vein' },
-    { id: 2, code: 'FIN', name: 'Finger Prick', description: 'Capillary blood from fingertip' },
-    { id: 3, code: 'MID', name: 'Midstream Catch', description: 'Urine collection technique' },
-    { id: 4, code: 'SWB', name: 'Swab', description: 'Surface swab collection' },
-  ];
-
-  constructor(private modalService: BsModalService, private fb: UntypedFormBuilder) {}
+  constructor(private http: HttpClient, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Master Data' }, { label: 'Sampling' }, { label: 'Sampled Method', active: true }];
     this.initForm();
+    this.loadData();
   }
 
-  initForm(data?: any): void {
+  loadData(): void {
+    this.loading = true;
+    this.error = '';
+    this.http.get<{ items: SampledMethod[] }>(`${environment.apiUrl}/api/v1/external-customer/sample-method/list`)
+      .subscribe({
+        next: res => { this.dataList = res.items; this.loading = false; },
+        error: err => { this.error = err?.error?.error_message || 'Failed to load sampled methods.'; this.loading = false; }
+      });
+  }
+
+  initForm(data?: SampledMethod): void {
     this.sampledMethodForm = this.fb.group({
-      code: [data?.code || '', [Validators.required]],
-      name: [data?.name || '', [Validators.required]],
-      description: [data?.description || '']
+      shortCode: [data?.shortCode || '', [Validators.required]],
+      description: [data?.description || '', [Validators.required]]
     });
   }
 
   get form() { return this.sampledMethodForm.controls; }
 
-  get filteredList() {
+  get filteredList(): SampledMethod[] {
     if (!this.term) return this.dataList;
     const t = this.term.toLowerCase();
     return this.dataList.filter(d =>
-      d.name.toLowerCase().includes(t) || d.code.toLowerCase().includes(t)
+      d.shortCode.toLowerCase().includes(t) || d.description.toLowerCase().includes(t)
     );
   }
 
@@ -57,7 +71,7 @@ export class SampledMethodListComponent implements OnInit {
     this.formModal?.show();
   }
 
-  openEdit(item: any): void {
+  openEdit(item: SampledMethod): void {
     this.editId = item.id;
     this.submitted = false;
     this.initForm(item);
@@ -73,13 +87,12 @@ export class SampledMethodListComponent implements OnInit {
       const idx = this.dataList.findIndex(d => d.id === this.editId);
       if (idx > -1) this.dataList[idx] = { ...this.dataList[idx], ...val };
     } else {
-      const newId = this.dataList.length ? Math.max(...this.dataList.map(d => d.id)) + 1 : 1;
-      this.dataList = [...this.dataList, { id: newId, ...val }];
+      this.dataList = [...this.dataList, { id: crypto.randomUUID(), ...val }];
     }
     this.formModal?.hide();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: string): void {
     this.deleteTargetId = id;
     this.deleteModal?.show();
   }

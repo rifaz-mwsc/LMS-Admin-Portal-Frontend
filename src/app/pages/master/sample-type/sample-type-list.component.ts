@@ -1,6 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalService, BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
+import { HttpClient } from '@angular/common/http';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { environment } from '../../../../environments/environment';
+
+interface SampleType {
+  id: string;
+  shortCode: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-sample-type-list',
@@ -10,43 +18,49 @@ export class SampleTypeListComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   term = '';
   submitted = false;
-  editId: number | null = null;
+  editId: string | null = null;
   sampleTypeForm!: UntypedFormGroup;
+  loading = false;
+  error = '';
 
   @ViewChild('formModal', { static: false }) formModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
-  deleteTargetId: number | null = null;
+  deleteTargetId: string | null = null;
+  dataList: SampleType[] = [];
 
-  dataList = [
-    { id: 1, code: 'BLD', name: 'Blood', description: 'Whole blood specimen' },
-    { id: 2, code: 'SRM', name: 'Serum', description: 'Serum after centrifugation' },
-    { id: 3, code: 'URN', name: 'Urine', description: 'Mid-stream urine collection' },
-    { id: 4, code: 'CSF', name: 'Cerebrospinal Fluid', description: 'Collected via lumbar puncture' },
-  ];
-
-  constructor(private modalService: BsModalService, private fb: UntypedFormBuilder) {}
+  constructor(private http: HttpClient, private fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Master Data' }, { label: 'Sampling' }, { label: 'Sample Type', active: true }];
     this.initForm();
+    this.loadData();
   }
 
-  initForm(data?: any): void {
+  loadData(): void {
+    this.loading = true;
+    this.error = '';
+    this.http.get<{ items: SampleType[] }>(`${environment.apiUrl}/api/v1/external-customer/sample-type/list`)
+      .subscribe({
+        next: res => { this.dataList = res.items; this.loading = false; },
+        error: err => { this.error = err?.error?.error_message || 'Failed to load sample types.'; this.loading = false; }
+      });
+  }
+
+  initForm(data?: SampleType): void {
     this.sampleTypeForm = this.fb.group({
-      code: [data?.code || '', [Validators.required]],
-      name: [data?.name || '', [Validators.required]],
-      description: [data?.description || '']
+      shortCode: [data?.shortCode || '', [Validators.required]],
+      description: [data?.description || '', [Validators.required]]
     });
   }
 
   get form() { return this.sampleTypeForm.controls; }
 
-  get filteredList() {
+  get filteredList(): SampleType[] {
     if (!this.term) return this.dataList;
     const t = this.term.toLowerCase();
     return this.dataList.filter(d =>
-      d.name.toLowerCase().includes(t) || d.code.toLowerCase().includes(t)
+      d.shortCode.toLowerCase().includes(t) || d.description.toLowerCase().includes(t)
     );
   }
 
@@ -57,7 +71,7 @@ export class SampleTypeListComponent implements OnInit {
     this.formModal?.show();
   }
 
-  openEdit(item: any): void {
+  openEdit(item: SampleType): void {
     this.editId = item.id;
     this.submitted = false;
     this.initForm(item);
@@ -73,13 +87,12 @@ export class SampleTypeListComponent implements OnInit {
       const idx = this.dataList.findIndex(d => d.id === this.editId);
       if (idx > -1) this.dataList[idx] = { ...this.dataList[idx], ...val };
     } else {
-      const newId = this.dataList.length ? Math.max(...this.dataList.map(d => d.id)) + 1 : 1;
-      this.dataList = [...this.dataList, { id: newId, ...val }];
+      this.dataList = [...this.dataList, { id: crypto.randomUUID(), ...val }];
     }
     this.formModal?.hide();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: string): void {
     this.deleteTargetId = id;
     this.deleteModal?.show();
   }

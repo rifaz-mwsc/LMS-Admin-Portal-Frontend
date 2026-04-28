@@ -58,7 +58,7 @@ const JobListdata = [
     {
         id: 5,
         title: "Product Sales Specialist",
-        name: "Skote Technology pvt.Ltd",
+        name: "LMS Admin Portal Technology pvt.Ltd",
         location: "Louisiana",
         experience: "5+ Years",
         position: 1,
